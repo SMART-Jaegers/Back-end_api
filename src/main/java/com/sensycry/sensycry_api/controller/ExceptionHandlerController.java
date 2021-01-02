@@ -11,10 +11,12 @@ import com.sensycry.sensycry_api.exeption.NoSuchPersonException;
 import com.sensycry.sensycry_api.exeption.NoSuchUserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+@CrossOrigin
 @RestController
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NoSuchApartmentException.class)

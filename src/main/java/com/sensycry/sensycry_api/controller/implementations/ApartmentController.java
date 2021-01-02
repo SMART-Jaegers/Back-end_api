@@ -6,6 +6,7 @@ import com.sensycry.sensycry_api.dto.ApartmentDto;
 import com.sensycry.sensycry_api.service.implementation.ApartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@CrossOrigin
 @RestController
 public class ApartmentController implements ControllerWithDto<ApartmentDto, Apartment> {
     

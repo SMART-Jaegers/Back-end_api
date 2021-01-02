@@ -6,6 +6,7 @@ import com.sensycry.sensycry_api.dto.IncedentDto;
 import com.sensycry.sensycry_api.service.implementation.IncedentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@CrossOrigin
 @RestController
 public class IncedentController implements ControllerWithDto<IncedentDto, Incedent> {
     private final IncedentService incedentService;
@@ -26,9 +28,16 @@ public class IncedentController implements ControllerWithDto<IncedentDto, Incede
         this.incedentService = incedentService;
     }
     
-    @GetMapping(value = "/sensycry/incedent")
+    @GetMapping(value = "/sensycry/incedent/all")
     public ResponseEntity<List<IncedentDto>> getIncedents() {
         List<Incedent> incedents = incedentService.getEntities();
+        List<IncedentDto> incedentsDto = createDtos(incedents);
+        return new ResponseEntity<>(incedentsDto, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/sensycry/incedent/all/{count}")
+    public ResponseEntity<List<IncedentDto>> getIncedentsByLimit(@PathVariable Integer count) {
+        List<Incedent> incedents = incedentService.getIncedentWithLimit(count);
         List<IncedentDto> incedentsDto = createDtos(incedents);
         return new ResponseEntity<>(incedentsDto, HttpStatus.OK);
     }

@@ -9,7 +9,9 @@ import com.sensycry.sensycry_api.repository.IncedentRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class IncedentService extends GeneralServiceImplementation<Incedent, Integer> {
@@ -63,5 +65,10 @@ public class IncedentService extends GeneralServiceImplementation<Incedent, Inte
         }
         throw new NoSuchApartmentException();
         
+    }
+    
+    @Transactional
+    public List<Incedent> getIncedentWithLimit(Integer count){
+        return incedentRepository.findAll().stream().limit(count).collect(Collectors.toList());
     }
 }

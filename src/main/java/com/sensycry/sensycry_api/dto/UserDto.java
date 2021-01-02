@@ -1,6 +1,5 @@
 package com.sensycry.sensycry_api.dto;
 
-import com.sensycry.sensycry_api.controller.implementations.PasswordController;
 import com.sensycry.sensycry_api.controller.implementations.UserController;
 import com.sensycry.sensycry_api.domain.User;
 import org.springframework.hateoas.ResourceSupport;
@@ -16,11 +15,6 @@ public class UserDto extends ResourceSupport {
         
         add(linkTo(methodOn(UserController.class).getUser(user.getId()))
             .withSelfRel());
-        
-        add(linkTo(
-            methodOn(PasswordController.class).getPassword(user.getPasswordByPasswordId().getId()))
-            .withRel("password"));
-        
     }
     
     public Integer getUserId() {
