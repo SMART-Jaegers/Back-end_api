@@ -7,6 +7,7 @@ import org.springframework.hateoas.ResourceSupport;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -31,7 +32,7 @@ public class IncedentDto extends ResourceSupport {
         return incedent.getId();
     }
     
-    public Date getDate() {
+    public Timestamp getDate() {
         return incedent.getDate();
     }
     

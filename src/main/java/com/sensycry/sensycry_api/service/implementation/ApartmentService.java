@@ -9,7 +9,9 @@ import com.sensycry.sensycry_api.repository.DistrictRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ApartmentService extends GeneralServiceImplementation<Apartment, Integer> {
@@ -58,4 +60,12 @@ public class ApartmentService extends GeneralServiceImplementation<Apartment, In
         }
         throw new NoSuchDistrictException();
     }
+    
+    @Transactional
+    public List<Apartment> getApartmentsByFamilyId(String familyId) {
+        return apartmentRepository.findAll().stream()
+            .filter(apartment -> apartment.getFamilyId().toString().contains(familyId)).collect(
+                Collectors.toList());
+    }
+    
 }

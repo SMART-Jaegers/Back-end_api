@@ -9,11 +9,12 @@ import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 public class Incedent {
     private Integer id;
-    private Date date;
+    private Timestamp date;
     private Time duringTime;
     private Byte aggresionHappend;
     private BigDecimal accuracy;
@@ -34,11 +35,11 @@ public class Incedent {
     
     @Basic
     @Column(name = "date")
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
     
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
     

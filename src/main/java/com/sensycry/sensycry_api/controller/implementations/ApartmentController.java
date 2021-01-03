@@ -36,6 +36,14 @@ public class ApartmentController implements ControllerWithDto<ApartmentDto, Apar
         return new ResponseEntity<>(apartmentsDto, HttpStatus.OK);
     }
     
+    @GetMapping(value = "/sensycry/apartment/input/{familyId}")
+    public ResponseEntity<List<ApartmentDto>> getApartmentsByFirstNumberOf(@PathVariable String familyId) {
+        List<Apartment> apartments = apartmentService.getApartmentsByFamilyId(familyId);
+        List<ApartmentDto> apartmentsDto = createDtos(apartments);
+        return new ResponseEntity<>(apartmentsDto, HttpStatus.OK);
+    }
+    
+    
     @GetMapping(value = "/sensycry/apartment/{id}")
     public ResponseEntity<ApartmentDto> getApartment(@PathVariable Integer id) {
         Apartment apartment = apartmentService.getEntity(id);
