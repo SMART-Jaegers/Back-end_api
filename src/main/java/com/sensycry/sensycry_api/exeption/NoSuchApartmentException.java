@@ -1,4 +1,3 @@
 package com.sensycry.sensycry_api.exeption;
 
-public class NoSuchApartmentException extends RuntimeException {
-}
+public class NoSuchApartmentException extends RuntimeException {}

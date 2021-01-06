@@ -9,37 +9,37 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class PersonDto extends ResourceSupport {
-    private final Person person;
-    
-    public PersonDto(Person person) {
-        this.person = person;
-        
-        add(linkTo(methodOn(PersonController.class).getPerson(person.getId()))
-            .withSelfRel());
-        
-        add(linkTo(methodOn(ApartmentController.class)
-            .getApartment(person.getApartmentByFamilyId().getFamilyId()))
+  private final Person person;
+
+  public PersonDto(Person person) {
+    this.person = person;
+
+    add(linkTo(methodOn(PersonController.class).getPerson(person.getId())).withSelfRel());
+
+    add(
+        linkTo(
+                methodOn(ApartmentController.class)
+                    .getApartment(person.getApartmentByFamilyId().getFamilyId()))
             .withRel("device"));
-    }
-    
-    public Integer getPersonId() {
-        return person.getId();
-    }
-    
-    public String getFirstName() {
-        return person.getFirstName();
-    }
-    
-    public String getSurname() {
-        return person.getSurname();
-    }
-    
-    public String getLastName() {
-        return person.getLastName();
-    }
-    
-    public String getPhoneNumber() {
-        return person.getPhoneNumber();
-    }
-    
+  }
+
+  public Integer getPersonId() {
+    return person.getId();
+  }
+
+  public String getFirstName() {
+    return person.getFirstName();
+  }
+
+  public String getSurname() {
+    return person.getSurname();
+  }
+
+  public String getLastName() {
+    return person.getLastName();
+  }
+
+  public String getPhoneNumber() {
+    return person.getPhoneNumber();
+  }
 }

@@ -20,62 +20,61 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class DistrictController implements ControllerWithDto<DistrictDto, District> {
-    
-    private final DistrictService districtService;
-    
-    public DistrictController(
-        DistrictService districtService) {
-        this.districtService = districtService;
+
+  private final DistrictService districtService;
+
+  public DistrictController(DistrictService districtService) {
+    this.districtService = districtService;
+  }
+
+  @GetMapping(value = "/sensycry/district")
+  public ResponseEntity<List<DistrictDto>> getDistricts() {
+    List<District> districts = districtService.getEntities();
+    List<DistrictDto> districtsDto = createDtos(districts);
+    return new ResponseEntity<>(districtsDto, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/sensycry/district/{id}")
+  public ResponseEntity<DistrictDto> getDistrict(@PathVariable Integer id) {
+    District district = districtService.getEntity(id);
+    DistrictDto districtDto = createDto(district);
+    return new ResponseEntity<>(districtDto, HttpStatus.OK);
+  }
+
+  @PostMapping(value = "/sensycry/district")
+  public ResponseEntity<DistrictDto> setDistrict(@RequestBody District district) {
+    District newDistrict = districtService.createEntity(district);
+    DistrictDto districtDto = createDto(newDistrict);
+    return new ResponseEntity<>(districtDto, HttpStatus.OK);
+  }
+
+  @PutMapping(value = "/sensycry/district/{id}")
+  public ResponseEntity<DistrictDto> updateDistrict(
+      @RequestBody District district, @PathVariable Integer id) {
+    District newDistrict = districtService.updateEntity(district, id);
+    DistrictDto districtDto = createDto(newDistrict);
+    return new ResponseEntity<>(districtDto, HttpStatus.OK);
+  }
+
+  @DeleteMapping(value = "/sensycry/district/{id}")
+  public ResponseEntity<DistrictDto> deleteDistrict(@PathVariable Integer id) {
+    District oldDistrict = districtService.deleteEntity(id);
+    DistrictDto districtDto = createDto(oldDistrict);
+    return new ResponseEntity<>(districtDto, HttpStatus.OK);
+  }
+
+  @Override
+  public List<DistrictDto> createDtos(Iterable<District> districts) {
+    List<DistrictDto> districtsDto = new ArrayList<>();
+    for (District district : districts) {
+      DistrictDto districtDto = new DistrictDto(district);
+      districtsDto.add(districtDto);
     }
-    
-    @GetMapping(value = "/sensycry/district")
-    public ResponseEntity<List<DistrictDto>> getDistricts() {
-        List<District> districts = districtService.getEntities();
-        List<DistrictDto> districtsDto = createDtos(districts);
-        return new ResponseEntity<>(districtsDto, HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/sensycry/district/{id}")
-    public ResponseEntity<DistrictDto> getDistrict(@PathVariable Integer id) {
-        District district = districtService.getEntity(id);
-        DistrictDto districtDto = createDto(district);
-        return new ResponseEntity<>(districtDto, HttpStatus.OK);
-    }
-    
-    @PostMapping(value = "/sensycry/district")
-    public ResponseEntity<DistrictDto> setDistrict(@RequestBody District district) {
-        District newDistrict = districtService.createEntity(district);
-        DistrictDto districtDto = createDto(newDistrict);
-        return new ResponseEntity<>(districtDto, HttpStatus.OK);
-    }
-    
-    @PutMapping(value = "/sensycry/district/{id}")
-    public ResponseEntity<DistrictDto> updateDistrict(
-        @RequestBody District district, @PathVariable Integer id) {
-        District newDistrict = districtService.updateEntity(district, id);
-        DistrictDto districtDto = createDto(newDistrict);
-        return new ResponseEntity<>(districtDto, HttpStatus.OK);
-    }
-    
-    @DeleteMapping(value = "/sensycry/district/{id}")
-    public ResponseEntity<DistrictDto> deleteDistrict(@PathVariable Integer id) {
-        District oldDistrict = districtService.deleteEntity(id);
-        DistrictDto districtDto = createDto(oldDistrict);
-        return new ResponseEntity<>(districtDto, HttpStatus.OK);
-    }
-    
-    @Override
-    public List<DistrictDto> createDtos(Iterable<District> districts) {
-        List<DistrictDto> districtsDto = new ArrayList<>();
-        for (District district : districts) {
-            DistrictDto districtDto = new DistrictDto(district);
-            districtsDto.add(districtDto);
-        }
-        return districtsDto;
-    }
-    
-    @Override
-    public DistrictDto createDto(District district) {
-        return new DistrictDto(district);
-    }
+    return districtsDto;
+  }
+
+  @Override
+  public DistrictDto createDto(District district) {
+    return new DistrictDto(district);
+  }
 }

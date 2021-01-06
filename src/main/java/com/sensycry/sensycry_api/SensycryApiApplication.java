@@ -5,9 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SensycryApiApplication {
-    
-    public static void main(String[] args) {
-        SpringApplication.run(SensycryApiApplication.class, args);
-    }
-}
 
+  public static void main(String[] args) {
+    SpringApplication.run(SensycryApiApplication.class, args);
+  }
+}

@@ -21,68 +21,67 @@ import java.util.Set;
 @CrossOrigin
 @RestController
 public class PersonController implements ControllerWithDto<PersonDto, Person> {
-    private final PersonService personService;
-    
-    public PersonController(
-        PersonService personService) {
-        this.personService = personService;
+  private final PersonService personService;
+
+  public PersonController(PersonService personService) {
+    this.personService = personService;
+  }
+
+  @GetMapping(value = "/sensycry/person")
+  public ResponseEntity<List<PersonDto>> getPeople() {
+    List<Person> people = personService.getEntities();
+    List<PersonDto> peopleDto = createDtos(people);
+    return new ResponseEntity<>(peopleDto, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/sensycry/person/{id}")
+  public ResponseEntity<PersonDto> getPerson(@PathVariable Integer id) {
+    Person person = personService.getEntity(id);
+    PersonDto personDto = createDto(person);
+    return new ResponseEntity<>(personDto, HttpStatus.OK);
+  }
+
+  @PostMapping(value = "/sensycry/person")
+  public ResponseEntity<PersonDto> setPerson(@RequestBody Person person) {
+    Person newPerson = personService.createEntity(person);
+    PersonDto personDto = createDto(newPerson);
+    return new ResponseEntity<>(personDto, HttpStatus.OK);
+  }
+
+  @PutMapping(value = "/sensycry/person/{id}")
+  public ResponseEntity<PersonDto> updatePerson(
+      @RequestBody Person person, @PathVariable Integer id) {
+    Person newPerson = personService.updateEntity(person, id);
+    PersonDto personDto = createDto(newPerson);
+    return new ResponseEntity<>(personDto, HttpStatus.OK);
+  }
+
+  @DeleteMapping(value = "/sensycry/person/{id}")
+  public ResponseEntity<PersonDto> deletePerson(@PathVariable Integer id) {
+    Person oldPerson = personService.deleteEntity(id);
+    PersonDto personDto = createDto(oldPerson);
+    return new ResponseEntity<>(personDto, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/sensycry/person/apartment/{id}")
+  public ResponseEntity<List<PersonDto>> getPersonsByApartment(@PathVariable Integer id) {
+    Set<Person> people = personService.getPersonByApartment(id);
+    List<PersonDto> peopleDto = createDtos(people);
+    return new ResponseEntity<>(peopleDto, HttpStatus.OK);
+  }
+
+  @Override
+  public List<PersonDto> createDtos(Iterable<Person> people) {
+    List<PersonDto> peopleDto = new ArrayList<>();
+    for (Person person : people) {
+      PersonDto personDto = new PersonDto(person);
+      peopleDto.add(personDto);
     }
-    
-    @GetMapping(value = "/sensycry/person")
-    public ResponseEntity<List<PersonDto>> getPeople() {
-        List<Person> people = personService.getEntities();
-        List<PersonDto> peopleDto = createDtos(people);
-        return new ResponseEntity<>(peopleDto, HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/sensycry/person/{id}")
-    public ResponseEntity<PersonDto> getPerson(@PathVariable Integer id) {
-        Person person = personService.getEntity(id);
-        PersonDto personDto = createDto(person);
-        return new ResponseEntity<>(personDto, HttpStatus.OK);
-    }
-    
-    @PostMapping(value = "/sensycry/person")
-    public ResponseEntity<PersonDto> setPerson(@RequestBody Person person) {
-        Person newPerson = personService.createEntity(person);
-        PersonDto personDto = createDto(newPerson);
-        return new ResponseEntity<>(personDto, HttpStatus.OK);
-    }
-    
-    @PutMapping(value = "/sensycry/person/{id}")
-    public ResponseEntity<PersonDto> updatePerson(
-        @RequestBody Person person, @PathVariable Integer id) {
-        Person newPerson = personService.updateEntity(person, id);
-        PersonDto personDto = createDto(newPerson);
-        return new ResponseEntity<>(personDto, HttpStatus.OK);
-    }
-    
-    @DeleteMapping(value = "/sensycry/person/{id}")
-    public ResponseEntity<PersonDto> deletePerson(@PathVariable Integer id) {
-        Person oldPerson = personService.deleteEntity(id);
-        PersonDto personDto = createDto(oldPerson);
-        return new ResponseEntity<>(personDto, HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/sensycry/person/apartment/{id}")
-    public ResponseEntity<List<PersonDto>> getPersonsByApartment(@PathVariable Integer id) {
-        Set<Person> people = personService.getPersonByApartment(id);
-        List<PersonDto> peopleDto = createDtos(people);
-        return new ResponseEntity<>(peopleDto, HttpStatus.OK);
-    }
-    
-    @Override
-    public List<PersonDto> createDtos(Iterable<Person> people) {
-        List<PersonDto> peopleDto = new ArrayList<>();
-        for (Person person : people) {
-            PersonDto personDto = new PersonDto(person);
-            peopleDto.add(personDto);
-        }
-        return peopleDto;
-    }
-    
-    @Override
-    public PersonDto createDto(Person person) {
-        return new PersonDto(person);
-    }
+    return peopleDto;
+  }
+
+  @Override
+  public PersonDto createDto(Person person) {
+    return new PersonDto(person);
+  }
 }

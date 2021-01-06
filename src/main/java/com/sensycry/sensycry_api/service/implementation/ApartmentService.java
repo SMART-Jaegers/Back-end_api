@@ -15,57 +15,54 @@ import java.util.stream.Collectors;
 
 @Service
 public class ApartmentService extends GeneralServiceImplementation<Apartment, Integer> {
-    
-    private final ApartmentRepository apartmentRepository;
-    private final DistrictRepository districtRepository;
-    
-    public ApartmentService(
-        ApartmentRepository apartmentRepository,
-        DistrictRepository districtRepository) {
-        this.apartmentRepository = apartmentRepository;
-        this.districtRepository = districtRepository;
+
+  private final ApartmentRepository apartmentRepository;
+  private final DistrictRepository districtRepository;
+
+  public ApartmentService(
+      ApartmentRepository apartmentRepository, DistrictRepository districtRepository) {
+    this.apartmentRepository = apartmentRepository;
+    this.districtRepository = districtRepository;
+  }
+
+  @Override
+  protected JpaRepository<Apartment, Integer> getRepository() {
+    return apartmentRepository;
+  }
+
+  @Override
+  protected void throwException() {
+    throw new NoSuchApartmentException();
+  }
+
+  @Override
+  protected Apartment mergeEntities(Apartment newEntity, Apartment entity) {
+    newEntity.setAddress(
+        entity.getAddress() != null ? entity.getAddress() : newEntity.getAddress());
+    newEntity.setDevices(
+        entity.getDevices() != null ? entity.getDevices() : newEntity.getDevices());
+    newEntity.setDistrict(
+        entity.getDistrict() != null ? entity.getDistrict() : newEntity.getDistrict());
+    newEntity.setIncedents(
+        entity.getIncedents() != null ? entity.getIncedents() : newEntity.getIncedents());
+    newEntity.setPeople(entity.getPeople() != null ? entity.getPeople() : newEntity.getPeople());
+
+    return newEntity;
+  }
+
+  @Transactional
+  public Set<Apartment> getApartmentsByDistrict(Integer districtId) {
+    if (districtRepository.existsById(districtId)) {
+      District district = districtRepository.findById(districtId).get();
+      return district.getApartmentsById();
     }
-    
-    @Override
-    protected JpaRepository<Apartment, Integer> getRepository() {
-        return apartmentRepository;
-    }
-    
-    @Override
-    protected void throwException() {
-        throw new NoSuchApartmentException();
-    }
-    
-    @Override
-    protected Apartment mergeEntities(Apartment newEntity, Apartment entity) {
-        newEntity
-            .setAddress(entity.getAddress() != null ? entity.getAddress() : newEntity.getAddress());
-        newEntity
-            .setDevices(entity.getDevices() != null ? entity.getDevices() : newEntity.getDevices());
-        newEntity.setDistrict(entity.getDistrict() != null ? entity.getDistrict() :
-            newEntity.getDistrict());
-        newEntity.setIncedents(entity.getIncedents() != null ? entity.getIncedents() :
-            newEntity.getIncedents());
-        newEntity.setPeople(entity.getPeople() != null ? entity.getPeople() :
-            newEntity.getPeople());
-        
-        return newEntity;
-    }
-    
-    @Transactional
-    public Set<Apartment> getApartmentsByDistrict(Integer districtId) {
-        if (districtRepository.existsById(districtId)) {
-            District district = districtRepository.findById(districtId).get();
-            return district.getApartmentsById();
-        }
-        throw new NoSuchDistrictException();
-    }
-    
-    @Transactional
-    public List<Apartment> getApartmentsByFamilyId(String familyId) {
-        return apartmentRepository.findAll().stream()
-            .filter(apartment -> apartment.getFamilyId().toString().contains(familyId)).collect(
-                Collectors.toList());
-    }
-    
+    throw new NoSuchDistrictException();
+  }
+
+  @Transactional
+  public List<Apartment> getApartmentsByFamilyId(String familyId) {
+    return apartmentRepository.findAll().stream()
+        .filter(apartment -> apartment.getFamilyId().toString().contains(familyId))
+        .collect(Collectors.toList());
+  }
 }

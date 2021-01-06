@@ -1,4 +1,3 @@
 package com.sensycry.sensycry_api.exeption;
 
-public class NoSuchPeopleWithProblemsException extends RuntimeException{
-}
+public class NoSuchPeopleWithProblemsException extends RuntimeException {}

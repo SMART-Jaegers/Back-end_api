@@ -9,26 +9,25 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class DeviceDto extends ResourceSupport {
-    private final Device device;
-    
-    public DeviceDto(Device device) {
-        this.device = device;
-        
-        add(linkTo(methodOn(ApartmentController.class).getApartment(device
-            .getApartment().getFamilyId()))
+  private final Device device;
+
+  public DeviceDto(Device device) {
+    this.device = device;
+
+    add(
+        linkTo(
+                methodOn(ApartmentController.class)
+                    .getApartment(device.getApartment().getFamilyId()))
             .withRel("apartament"));
-        
-        add(linkTo(methodOn(DeviceController.class).getDevice(device.getId()))
-            .withSelfRel());
-        
-    }
-    
-    public Integer getDeviceId() {
-        return device.getId();
-    }
-    
-    public String getName() {
-        return device.getName();
-    }
-    
+
+    add(linkTo(methodOn(DeviceController.class).getDevice(device.getId())).withSelfRel());
+  }
+
+  public Integer getDeviceId() {
+    return device.getId();
+  }
+
+  public String getName() {
+    return device.getName();
+  }
 }

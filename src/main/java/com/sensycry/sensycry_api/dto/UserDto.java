@@ -8,25 +8,23 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class UserDto extends ResourceSupport {
-    private final User user;
-    
-    public UserDto(User user) {
-        this.user = user;
-        
-        add(linkTo(methodOn(UserController.class).getUser(user.getId()))
-            .withSelfRel());
-    }
-    
-    public Integer getUserId() {
-        return user.getId();
-    }
-    
-    public String getUsername() {
-        return user.getUsername();
-    }
-    
-    public String getEmail() {
-        return user.getEmail();
-    }
-    
+  private final User user;
+
+  public UserDto(User user) {
+    this.user = user;
+
+    add(linkTo(methodOn(UserController.class).getUser(user.getId())).withSelfRel());
+  }
+
+  public Integer getUserId() {
+    return user.getId();
+  }
+
+  public String getUsername() {
+    return user.getUsername();
+  }
+
+  public String getEmail() {
+    return user.getEmail();
+  }
 }
