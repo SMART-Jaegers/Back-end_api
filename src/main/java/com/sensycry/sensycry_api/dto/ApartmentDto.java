@@ -6,7 +6,11 @@ import com.sensycry.sensycry_api.controller.implementations.DistrictController;
 import com.sensycry.sensycry_api.controller.implementations.IncedentController;
 import com.sensycry.sensycry_api.controller.implementations.PersonController;
 import com.sensycry.sensycry_api.domain.Apartment;
+import com.sensycry.sensycry_api.domain.Person;
 import org.springframework.hateoas.ResourceSupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -45,5 +49,15 @@ public class ApartmentDto extends ResourceSupport {
 
   public String getAddress() {
     return apartment.getAddress();
+  }
+  
+  
+  public List<PersonDto> getPeople() {
+    List<PersonDto> peopleDto = new ArrayList<>();
+    for (Person person : apartment.getPeople()) {
+      PersonDto personDto = new PersonDto(person);
+      peopleDto.add(personDto);
+    }
+    return peopleDto;
   }
 }

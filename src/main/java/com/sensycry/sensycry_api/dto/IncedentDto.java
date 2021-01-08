@@ -57,4 +57,8 @@ public class IncedentDto extends ResourceSupport {
   public String getSize() {
     return incedent.getSize();
   }
+  
+  public ApartmentDto getApartment() {
+    return new ApartmentDto(incedent.getApartmentByFamilyId());
+  }
 }
